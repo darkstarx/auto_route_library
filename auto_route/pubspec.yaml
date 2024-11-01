@@ -1,6 +1,6 @@
 name: auto_route
 description: AutoRoute is a declarative routing solution, where everything needed for navigation is automatically generated for you.
-version: 9.2.2
+version: 9.2.3
 homepage: https://github.com/Milad-Akarie/auto_route_library
 screenshots:
   - description: 'Auto Route Logo'
@@ -11,6 +11,8 @@ topics:
   - auto-route
   - nested-navigation
   - deep-linking
+
+publish_to: https://pub.rightbrain.pro
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

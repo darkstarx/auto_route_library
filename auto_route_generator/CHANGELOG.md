@@ -1,3 +1,7 @@
+## 9.0.1
+
+- Update auto_route dependency.
+
 ## 9.0.0 [Breaking Changes]
 
 - **BREAKING CHANGE**: No Router class will be generated anymore. Instead, you
