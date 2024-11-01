@@ -1,3 +1,7 @@
+## 9.2.3
+
+- **FIX**: Don't reset current tab of nested pages on rebuild widget tree.
+
 ## 9.2.2
 
 - **FIX**: Redirect route names are getting overridden in route collection.

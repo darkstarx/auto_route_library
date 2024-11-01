@@ -25,6 +25,8 @@
 
 ---
 
+This is a fork of the original [auto_route](https://pub.dev/packages/auto_route) with some fixes (see in Changelog).
+
 - [Introduction](#introduction)
   - [Installation](#installation)
   - [Setup and Usage](#setup-and-usage)
@@ -140,7 +142,7 @@ class AppRouter extends RootStackRouter {
 
   @override
   RouteType get defaultRouteType => RouteType.material(); //.cupertino, .adaptive ..etc
-  
+
   @override
   List<AutoRoute> get routes => [
     // HomeScreen is generated as HomeRoute because
@@ -447,7 +449,7 @@ You can shorten the code above a bit by directly extending the `AutoRouter` Widg
 ```dart
 @RoutePage()
 class MyShellPage extends AutoRouter {
-   const MyShellPage({Key? key}) : super(key: key);  
+   const MyShellPage({Key? key}) : super(key: key);
 }
 ```
 
@@ -813,7 +815,7 @@ MaterialApp.router(
         return SynchronousFuture(
         uri.replace(path: uri.path.replaceFirst('/prefix', '')),
           );
-      }  
+      }
       return SynchronousFuture(uri);
     }
   ),
@@ -1163,7 +1165,7 @@ In some cases we want to wrap our screen with a parent widget, usually to provid
 ```dart
 @RoutePage()
 class ProductsScreen extends StatelessWidget implements AutoRouteWrapper {
-  
+
   @override
   Widget wrappedRoute(BuildContext context) {
     return Provider(create: (ctx) => ProductsBloc(), child: this);
@@ -1315,7 +1317,7 @@ class BooksListPage extends State<BookListPage> with AutoRouteAwareStateMixin<Bo
   // only override if this is a stack page
   @override
   void didPopNext() {}
-  
+
   // only override if this is a stack page
   @override
   void didPushNext() {}
@@ -1541,10 +1543,10 @@ void initState(){
 
 
 ## Examples
- 
+
 - [Declarative Navigation](https://github.com/Milad-Akarie/auto_route_library/blob/master/auto_route/example/lib/declarative/declarative.router.dart)
 - [Nested Navigation](https://github.com/Milad-Akarie/auto_route_library/blob/master/auto_route/example/lib/nested-navigation/nested_navigation.router.dart)
- 
+
 ### Support auto_route
 
 You can support auto_route by liking it on Pub and staring it on Github, sharing ideas on how we can enhance a certain functionality or by reporting any problems you encounter and of course buying a couple coffees will help speed up the development process
