@@ -395,13 +395,6 @@ abstract class RoutingController with ChangeNotifier {
     return routers;
   }
 
-  // should find a way to avoid this
-  void _updateSharedPathData({
-    Map<String, dynamic> queryParams = const {},
-    String fragment = '',
-    bool includeAncestors = false,
-  });
-
   /// Takes a state snapshot of the current segments
   int get stateHash => const ListEquality().hash(_addedSegments);
 
@@ -877,11 +870,6 @@ class TabsRouter extends RoutingController {
           }
         }
       }
-      _updateSharedPathData(
-        queryParams: mayUpdateRoute.queryParams.rawMap,
-        fragment: mayUpdateRoute.fragment,
-        includeAncestors: false,
-      );
     }
 
     return SynchronousFuture(null);
@@ -926,24 +914,6 @@ class TabsRouter extends RoutingController {
       );
     }
     return false;
-  }
-
-  @override
-  void _updateSharedPathData({
-    Map<String, dynamic> queryParams = const {},
-    String fragment = '',
-    bool includeAncestors = false,
-  }) {
-    final newData = _pages[activeIndex].routeData;
-    final route = newData.route;
-    newData._updateRoute(route.copyWith(
-      queryParams: Parameters(queryParams),
-      fragment: fragment,
-    ));
-    if (includeAncestors && _parent != null) {
-      _parent!
-          ._updateSharedPathData(queryParams: queryParams, fragment: fragment);
-    }
   }
 
   @override
@@ -1129,29 +1099,6 @@ abstract class StackRouter extends RoutingController {
   bool get hasPagelessTopRoute => pagelessRoutesObserver.hasPagelessTopRoute;
 
   @override
-  void _updateSharedPathData({
-    Map<String, dynamic> queryParams = const {},
-    String fragment = '',
-    bool includeAncestors = false,
-  }) {
-    for (var index = 0; index < _pages.length; index++) {
-      final data = _pages[index].routeData;
-      final route = data.route;
-      data._updateRoute(route.copyWith(
-        queryParams: Parameters(queryParams),
-        fragment: fragment,
-      ));
-    }
-    if (includeAncestors && _parent != null) {
-      _parent!._updateSharedPathData(
-        queryParams: queryParams,
-        fragment: fragment,
-        includeAncestors: includeAncestors,
-      );
-    }
-  }
-
-  @override
   @optionalTypeArgs
   Future<bool> maybePop<T extends Object?>([T? result]) async {
     final NavigatorState? navigator = _navigatorKey.currentState;
@@ -1199,7 +1146,6 @@ abstract class StackRouter extends RoutingController {
       _pages.removeAt(pageIndex);
     }
 
-    _updateSharedPathData(includeAncestors: true);
     _removeTopRouterOf(route.key);
     if (notify) {
       notifyAll(forceUrlRebuild: true);
@@ -1291,11 +1237,6 @@ abstract class StackRouter extends RoutingController {
     onMatch?.call(match);
     final result = await _canNavigate(match, onFailure: onFailure);
     if (result.continueNavigation) {
-      _updateSharedPathData(
-        queryParams: route.rawQueryParams,
-        fragment: route.fragment,
-        includeAncestors: true,
-      );
       return _addEntry<T>(match, notify: notify);
     }
     return null;
@@ -1562,11 +1503,6 @@ abstract class StackRouter extends RoutingController {
         if (i != (routes.length - 1)) {
           _addEntry(route, notify: false);
         } else {
-          _updateSharedPathData(
-            queryParams: route.queryParams.rawMap,
-            fragment: route.fragment,
-            includeAncestors: updateAncestorsPathData,
-          );
           final completer = _addEntry<T>(route, notify: notify);
           if (returnLastRouteCompleter) {
             return completer;
